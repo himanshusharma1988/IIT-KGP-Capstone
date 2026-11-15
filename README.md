@@ -1,6 +1,6 @@
 # VeriSheet — Agentic Spreadsheet Analysis (Starter Repository)
 
-This repository is a **contract-first implementation scaffold** for the VeriSheet capstone. It gives six contributors clear module ownership, shared Pydantic contracts, function/class definitions, mock fixtures, test placeholders, and Jira-style implementation stories.
+This repository is a **contract-first implementation scaffold** for the VeriSheet capstone. It gives six contributors clear module ownership, shared Pydantic contracts, function/class definitions, mock fixtures, test placeholders, and -style implementation stories.
 
 > **Important:** This is intentionally not a finished application. Functions marked `####CODE HERE` are implementation work assigned to a team member. They raise `NotImplementedError` until completed. Do not mistake a successful import for a completed feature.
 
@@ -56,7 +56,7 @@ Contract tests are executable immediately. Module-specific tests are initially m
 
 ## Required project commands (target interfaces)
 
-The Jira backlog describes implementation of these commands:
+The  backlog describes implementation of these commands:
 
 ```bash
 python scripts/prepare_data.py --seed 42
@@ -97,15 +97,12 @@ Read `docs/INTEGRATION_CONTRACTS.md` and `docs/DEVELOPMENT_WORKFLOW.md` before c
 
 ## Documentation map
 
-- `jira/JIRA_BACKLOG.md` — tasks/stories/acceptance criteria/owners/dependencies.
 - `docs/ARCHITECTURE.md` — system flow and component boundaries.
 - `docs/INTEGRATION_CONTRACTS.md` — schemas and interface rules.
-- `docs/DEVELOPMENT_WORKFLOW.md` — Git/PR/test workflow.
 - `docs/SECURITY.md` — upload, prompt-injection, PII and sandbox controls.
 - `docs/DATA_DICTIONARY.md` — metric and dataset rules.
-- `docs/DEMO_RUNBOOK.md` — required 10-minute demo path.
 
-## Definition of Done for every story
+## Definition of Done for every task
 
 - Implementation merged through a reviewed pull request.
 - Public functions/classes have docstrings and type hints.

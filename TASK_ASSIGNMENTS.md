@@ -1,6 +1,6 @@
 # Six-person assignment sheet
 
-This is the quick assignment page. The detailed implementation tickets and acceptance criteria are in `jira/JIRA_BACKLOG.md`.
+This is the quick assignment page. The detailed implementation tickets and acceptance criteria are in `/TASK_ASSIGNMENTS.md`.
 
 | Owner | Primary outcome | Files owned | Must hand over |
 |---|---|---|---|

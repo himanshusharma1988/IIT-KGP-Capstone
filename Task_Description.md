@@ -13,13 +13,13 @@
 
 ## Global Definition of Ready
 
-A story is ready when its owner, public interface, input/output schema, dependencies, fixture and acceptance criteria are known. If an upstream module is incomplete, use the relevant fixture in `contracts/examples/` and a local mock.
+A task is ready when its owner, public interface, input/output schema, dependencies, fixture and acceptance criteria are known. If an upstream module is incomplete, use the relevant fixture in `contracts/examples/` and a local mock.
 
 ## Global Definition of Done
 
 - Code is merged through a reviewed pull request to the assigned module path.
 - Public classes/functions have type hints and docstrings that explain purpose, parameters, return type, errors and schema.
-- No unexplained `####CODE HERE` remains in the story's scope.
+- No unexplained `####CODE HERE` remains in the task's scope.
 - Unit tests cover normal, boundary and failure paths; contract tests use shared fixtures.
 - No secrets, gold answers/scripts, raw PII or unrestricted workbook content are exposed in prompts, logs or retrieval.
 - Module instructions allow another contributor to install, run and test it without author assistance.
@@ -32,7 +32,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P1-01 — Acquire and manifest the public datasets
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** None
 
-**Story:** As the data owner, I need the original Sample Superstore and UCI Online Retail datasets acquired and fingerprinted so all teams and evaluation runs use known, reproducible inputs.
+**task:** As the data owner, I need the original Sample Superstore and UCI Online Retail datasets acquired and fingerprinted so all teams and evaluation runs use known, reproducible inputs.
 
 **Technical tasks**
 - Acquire the full Sample Superstore workbook/table with the required fields, including order/customer/product identifiers where available.
@@ -52,7 +52,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P1-02 — Generate FinanceOps synthetic multi-sheet workbook
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P1-01
 
-**Story:** As the evaluation owner, I need a reproducible finance workbook to test multi-sheet joins, effective-dated costs, returns, expenses and business definitions that are not present in public sources.
+**task:** As the evaluation owner, I need a reproducible finance workbook to test multi-sheet joins, effective-dated costs, returns, expenses and business definitions that are not present in public sources.
 
 **Technical tasks**
 - Build `FinanceOps_Synthetic.xlsx` from a fixed seed (default 42).
@@ -76,7 +76,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P1-03 — Create 20 controlled corruption variants
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** P1-02
 
-**Story:** As the robustness-test owner, I need controlled workbook faults with expected outcomes so error detection and repair can be evaluated reproducibly.
+**task:** As the robustness-test owner, I need controlled workbook faults with expected outcomes so error detection and repair can be evaluated reproducibly.
 
 **Technical tasks**
 - Produce `corrupt_01.xlsx` … `corrupt_20.xlsx` from a clean baseline.
@@ -95,7 +95,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P1-04 — Freeze 100 question-workbook tasks and gold answers
 **Priority:** P0 · **Estimate:** 8 SP · **Dependencies:** P1-01, P1-02, P1-03
 
-**Story:** As the benchmark owner, I need a frozen, stratified task bank and independently generated gold answers so system variants are compared fairly.
+**task:** As the benchmark owner, I need a frozen, stratified task bank and independently generated gold answers so system variants are compared fairly.
 
 **Technical tasks**
 - Build exactly 100 unique question-workbook pairs: 40 Superstore, 40 Online Retail, 20 synthetic/corrupted.
@@ -121,7 +121,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P2-01 — Implement safe XLSX/CSV ingestion and workbook profiling
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P1 fixtures available; full P1 data later
 
-**Story:** As the Planner, I need a canonical WorkbookProfile for an unfamiliar upload so I can select valid sheets, columns, dates and operations.
+**task:** As the Planner, I need a canonical WorkbookProfile for an unfamiliar upload so I can select valid sheets, columns, dates and operations.
 
 **Technical tasks**
 - Implement `profile_workbook(file_path) -> WorkbookProfile` in `src/verisheet/profile.py`.
@@ -143,7 +143,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P2-02 — Implement safe sample_rows and quality warnings
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** P2-01
 
-**Story:** As the Planner/Executor, I need bounded typed samples and quality warnings so I can understand schema ambiguity without sending excessive or unsafe workbook data to the LLM.
+**task:** As the Planner/Executor, I need bounded typed samples and quality warnings so I can understand schema ambiguity without sending excessive or unsafe workbook data to the LLM.
 
 **Technical tasks**
 - Implement `sample_rows(file_path, sheet_name, n)`.
@@ -163,7 +163,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P2-03 — Build BGE-small-en-v1.5 document embeddings and FAISS index
 **Priority:** P1 · **Estimate:** 5 SP · **Dependencies:** P1 data dictionary; P2-01 may proceed with mock docs
 
-**Story:** As the Planner, I need semantic retrieval over approved definitions and tool documentation so the selected metric/assumptions are grounded in source material.
+**task:** As the Planner, I need semantic retrieval over approved definitions and tool documentation so the selected metric/assumptions are grounded in source material.
 
 **Technical tasks**
 - Load `BAAI/bge-small-en-v1.5` using sentence-transformers.
@@ -185,7 +185,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P2-04 — Publish profiling/retrieval contract and integration demo
 **Priority:** P0 · **Estimate:** 2 SP · **Dependencies:** P2-01, P2-02, P2-03
 
-**Story:** As the Planner owner, I need a reproducible module handover matching shared contracts so it can be integrated without custom adapters.
+**task:** As the Planner owner, I need a reproducible module handover matching shared contracts so it can be integrated without custom adapters.
 
 **Technical tasks**
 - Validate output against WorkbookProfile/RetrievedContext models.
@@ -206,7 +206,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P3-01 — Validate Qwen3-8B endpoint and shared client
 **Priority:** P0 · **Estimate:** 2 SP · **Dependencies:** Qwen endpoint credentials; shared schema available
 
-**Story:** As the Planner/Critic, I need a tested OpenAI-compatible Qwen API client so both agent roles use the same model/version and observable usage metadata.
+**task:** As the Planner/Critic, I need a tested OpenAI-compatible Qwen API client so both agent roles use the same model/version and observable usage metadata.
 
 **Technical tasks**
 - Validate endpoint compatibility with chat completions.
@@ -226,7 +226,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P3-02 — Design Planner system prompt and strict JSON output
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P2 contracts/fixtures; Qwen client
 
-**Story:** As a user, I need natural-language analytical questions converted into a valid plan so the analysis is explicit, reviewable and executable.
+**task:** As a user, I need natural-language analytical questions converted into a valid plan so the analysis is explicit, reviewable and executable.
 
 **Technical tasks**
 - Finalise versioned `prompts/planner.txt`.
@@ -247,7 +247,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P3-03 — Implement answerability, date and metric policies
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** P3-02, P2-01/03
 
-**Story:** As a user, I need the Planner to recognise when requested data/definitions are absent so it asks for clarification rather than fabricating an answer.
+**task:** As a user, I need the Planner to recognise when requested data/definitions are absent so it asks for clarification rather than fabricating an answer.
 
 **Technical tasks**
 - Detect unavailable metrics, especially Online Retail profit/COGS.
@@ -268,7 +268,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P3-04 — Support follow-up context and targeted REPLAN
 **Priority:** P1 · **Estimate:** 3 SP · **Dependencies:** P3-02, P5 AgentState contract
 
-**Story:** As a user, I need follow-up questions to preserve the prior verified metric, period and filters without re-uploading/re-specifying them.
+**task:** As a user, I need follow-up questions to preserve the prior verified metric, period and filters without re-uploading/re-specifying them.
 
 **Technical tasks**
 - Accept AgentState and use only accepted/verified context.
@@ -289,7 +289,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P4-01 — Implement plan validation and allowlisted tool registry
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** P3 AnalysisPlan contract, P2 profile fixture
 
-**Story:** As the system, I need every Planner step validated against known sheets/columns and approved tools before execution so model output cannot invoke arbitrary functionality.
+**task:** As the system, I need every Planner step validated against known sheets/columns and approved tools before execution so model output cannot invoke arbitrary functionality.
 
 **Technical tasks**
 - Build registry for inspect_workbook, sample_rows, run_analysis and make_chart.
@@ -306,7 +306,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P4-02 — Implement deterministic Pandas/DuckDB operations
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P4-01, P1 datasets
 
-**Story:** As the user, I need common analytical operations to produce correct structured results from my workbook.
+**task:** As the user, I need common analytical operations to produce correct structured results from my workbook.
 
 **Technical tasks**
 - Implement group aggregation, filter, top-N ranking, time aggregation, quarter comparison, grouped ratio and safe multi-sheet join.
@@ -327,7 +327,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P4-03 — Generate and execute chart artifacts from result tables
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** P4-02
 
-**Story:** As the user, I need a chart that faithfully represents executed results so I can inspect the analytical result visually.
+**task:** As the user, I need a chart that faithfully represents executed results so I can inspect the analytical result visually.
 
 **Technical tasks**
 - Implement ChartSpec validation and Matplotlib/Plotly rendering.
@@ -346,7 +346,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P4-04 — Implement restricted execution sandbox
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P4-01; platform/container availability
 
-**Story:** As the platform owner, I need generated scripts/approved operations executed in isolation so an uploaded workbook or model response cannot access host resources or secrets.
+**task:** As the platform owner, I need generated scripts/approved operations executed in isolation so an uploaded workbook or model response cannot access host resources or secrets.
 
 **Technical tasks**
 - Run in separate unprivileged process/container.
@@ -365,7 +365,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P4-05 — Publish ExecutionResult and executor handover
 **Priority:** P0 · **Estimate:** 2 SP · **Dependencies:** P4-01 through P4-04
 
-**Story:** As Person 5, I need a stable structured execution response with artifacts and provenance so I can verify and repair it without depending on Executor internals.
+**task:** As Person 5, I need a stable structured execution response with artifacts and provenance so I can verify and repair it without depending on Executor internals.
 
 **Acceptance criteria**
 - [ ] Every step returns ExecutionResult validated by shared schema.
@@ -380,7 +380,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P5-01 — Implement canonical independent numerical verifier
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P1 gold/business rules, P4 ExecutionResult contract
 
-**Story:** As the user, I need numeric outputs independently checked against source workbook data so an LLM or Executor mistake is not presented as verified.
+**task:** As the user, I need numeric outputs independently checked against source workbook data so an LLM or Executor mistake is not presented as verified.
 
 **Technical tasks**
 - Implement canonical reference calculations separately from Executor operation functions.
@@ -399,7 +399,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P5-02 — Implement chart-data fidelity verification
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** P4 chart contract
 
-**Story:** As the user, I need the rendered chart to contain the same data as the verified table so the visual cannot contradict the numeric answer.
+**task:** As the user, I need the rendered chart to contain the same data as the verified table so the visual cannot contradict the numeric answer.
 
 **Technical tasks**
 - Read result table and Executor plotted arrays.
@@ -416,7 +416,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P5-03 — Implement Qwen semantic Critic and decision policy
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** P3/P4 contracts, P5-01/02
 
-**Story:** As the system owner, I need a separate Critic role to assess intent/plan/chart fit and recommend a precise transition without being trusted for numeric correctness.
+**task:** As the system owner, I need a separate Critic role to assess intent/plan/chart fit and recommend a precise transition without being trusted for numeric correctness.
 
 **Technical tasks**
 - Create versioned `prompts/critic.txt` using shared Qwen client.
@@ -434,7 +434,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P5-04 — Implement bounded Orchestrator and state persistence
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P2/P3/P4/P5-03 interfaces
 
-**Story:** As a user, I need the agent roles coordinated over multiple turns while retaining only verified context and preventing endless retries.
+**task:** As a user, I need the agent roles coordinated over multiple turns while retaining only verified context and preventing endless retries.
 
 **Technical tasks**
 - Implement run flow: profile → retrieve → plan → execute → verify → critic → transition.
@@ -454,7 +454,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P5-05 — Publish AnswerResponse and trace events for UI
 **Priority:** P0 · **Estimate:** 2 SP · **Dependencies:** P5-04 and P6 TraceEvent contract
 
-**Story:** As Person 6, I need one stable final response independent of transition path so the UI does not need to know internal agent details.
+**task:** As Person 6, I need one stable final response independent of transition path so the UI does not need to know internal agent details.
 
 **Acceptance criteria**
 - [ ] Every terminal path returns AnswerResponse.
@@ -470,7 +470,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P6-01 — Implement workbook upload and analytical chat UI
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P2 WorkbookProfile and P5 AnswerResponse contracts; mock response can unblock
 
-**Story:** As an analyst, I need a simple interface to upload workbooks, ask multi-turn questions and inspect verified results so I can use the agent without writing code.
+**task:** As an analyst, I need a simple interface to upload workbooks, ask multi-turn questions and inspect verified results so I can use the agent without writing code.
 
 **Technical tasks**
 - Implement Streamlit upload for XLSX/CSV and safe temporary storage.
@@ -489,7 +489,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P6-02 — Implement structured trace logging and dashboard
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P5 trace emission fields; mock JSONL unblocks UI
 
-**Story:** As the evaluator, I need real execution traces to understand agent decisions, reproduce failures and demonstrate self-repair.
+**task:** As the evaluator, I need real execution traces to understand agent decisions, reproduce failures and demonstrate self-repair.
 
 **Technical tasks**
 - Persist TraceEvent records as JSONL or another append-only format.
@@ -507,7 +507,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P6-03 — Implement five-variant experiment runner
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P1 frozen test set, P5 orchestrator and P4 tool contracts
 
-**Story:** As the evaluator, I need five controlled system variants run against the same frozen 80-question test set so I can compare the contribution of planning, critic and deterministic checks.
+**task:** As the evaluator, I need five controlled system variants run against the same frozen 80-question test set so I can compare the contribution of planning, critic and deterministic checks.
 
 **Technical tasks**
 - Implement E1 Direct, E2 Planner+Executor, E3 LLM Critic, E4 deterministic Critic, E5 Full hybrid.
@@ -525,7 +525,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P6-04 — Implement scoring, ablation and 20-case injection suite
 **Priority:** P0 · **Estimate:** 5 SP · **Dependencies:** P1 gold data and corruption key, P6-03 traces
 
-**Story:** As the evaluator, I need reproducible metrics and robustness cases so correctness, false verification and repair capability can be measured rather than demonstrated anecdotally.
+**task:** As the evaluator, I need reproducible metrics and robustness cases so correctness, false verification and repair capability can be measured rather than demonstrated anecdotally.
 
 **Technical tasks**
 - Score numeric accuracy, task success, execution success, plot data accuracy, chart appropriateness, error detection recall, false verification rate + verified coverage, repair success, tool efficiency, median/p95 latency and token usage.
@@ -543,7 +543,7 @@ A story is ready when its owner, public interface, input/output schema, dependen
 ## VS-P6-05 — Package deployment, report and final demo
 **Priority:** P0 · **Estimate:** 3 SP · **Dependencies:** all prior tasks integrated
 
-**Story:** As the evaluator, I need a reproducible install/deployment and clear demonstration so the finished system can be reviewed from a clean environment.
+**task:** As the evaluator, I need a reproducible install/deployment and clear demonstration so the finished system can be reviewed from a clean environment.
 
 **Technical tasks**
 - Finalise `requirements.txt`, Dockerfile, `.env.example`, README and startup commands.
