@@ -1,0 +1,7 @@
+{
+  "status": "NOT_VERIFIED",
+  "answer": "The calculation did not pass independent verification and is not being presented as verified.",
+  "assumptions": [], "result_table_path": null, "chart_path": null, "chart_spec": null,
+  "verification": {"verification_id": "verify-example-001", "verified": false, "numeric_checks_passed": false, "chart_checks_passed": false, "semantic_checks_passed": true, "findings": [], "recomputed_values": {}, "tolerance": 1e-9, "verification_method": "deterministic_python"},
+  "clarification_question": null, "trace_id": "trace-example-001", "workbook_id": "sha256:example-workbook-fingerprint"
+}

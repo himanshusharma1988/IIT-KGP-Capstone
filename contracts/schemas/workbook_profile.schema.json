@@ -1,0 +1,238 @@
+{
+  "$defs": {
+    "ColumnProfile": {
+      "additionalProperties": false,
+      "description": "Column metadata from profiling; contains summaries, not unrestricted raw cell content.\n\nJSON schema fields: name, dtype, null_count, unique_count, candidate_roles, safe_examples.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "dtype": {
+          "title": "Dtype",
+          "type": "string"
+        },
+        "null_count": {
+          "default": 0,
+          "title": "Null Count",
+          "type": "integer"
+        },
+        "unique_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unique Count"
+        },
+        "candidate_roles": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Candidate Roles",
+          "type": "array"
+        },
+        "safe_examples": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "title": "Safe Examples",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "dtype"
+      ],
+      "title": "ColumnProfile",
+      "type": "object"
+    },
+    "FileType": {
+      "enum": [
+        "xlsx",
+        "csv"
+      ],
+      "title": "FileType",
+      "type": "string"
+    },
+    "QualityWarning": {
+      "additionalProperties": false,
+      "description": "Machine-readable quality warning surfaced to planner and UI.",
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "sheet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sheet"
+        },
+        "column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Column"
+        },
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        }
+      },
+      "required": [
+        "code",
+        "severity",
+        "message"
+      ],
+      "title": "QualityWarning",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "info",
+        "warning",
+        "error"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SheetProfile": {
+      "additionalProperties": false,
+      "description": "Profile of one worksheet or the synthetic `data` sheet created for a CSV.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "row_count": {
+          "title": "Row Count",
+          "type": "integer"
+        },
+        "columns": {
+          "items": {
+            "$ref": "#/$defs/ColumnProfile"
+          },
+          "title": "Columns",
+          "type": "array"
+        },
+        "duplicate_rows": {
+          "default": 0,
+          "title": "Duplicate Rows",
+          "type": "integer"
+        },
+        "hidden": {
+          "default": false,
+          "title": "Hidden",
+          "type": "boolean"
+        },
+        "formula_cell_count": {
+          "default": 0,
+          "title": "Formula Cell Count",
+          "type": "integer"
+        },
+        "candidate_date_ranges": {
+          "additionalProperties": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object"
+          },
+          "title": "Candidate Date Ranges",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "row_count",
+        "columns"
+      ],
+      "title": "SheetProfile",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Stable result of workbook inspection; consumed by Planner, Critic and UI.\n\nContract: workbook_id is a SHA-256 fingerprint of the uploaded bytes. `sheets` contains\nevery visible/hidden sheet that can be safely inspected. `warnings` carries quality issues.\nNo workbook cell text is treated as executable instruction.",
+  "properties": {
+    "workbook_id": {
+      "title": "Workbook Id",
+      "type": "string"
+    },
+    "file_name": {
+      "title": "File Name",
+      "type": "string"
+    },
+    "file_type": {
+      "$ref": "#/$defs/FileType"
+    },
+    "size_bytes": {
+      "title": "Size Bytes",
+      "type": "integer"
+    },
+    "sheets": {
+      "items": {
+        "$ref": "#/$defs/SheetProfile"
+      },
+      "title": "Sheets",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "$ref": "#/$defs/QualityWarning"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "inspected_at": {
+      "format": "date-time",
+      "title": "Inspected At",
+      "type": "string"
+    },
+    "profile_version": {
+      "default": "1.0",
+      "title": "Profile Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "workbook_id",
+    "file_name",
+    "file_type",
+    "size_bytes",
+    "sheets"
+  ],
+  "title": "WorkbookProfile",
+  "type": "object"
+}

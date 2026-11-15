@@ -1,0 +1,23 @@
+# Person 1 owns this frozen task configuration. Keep gold outputs out of model context.
+question_bank:
+  expected_total: 100
+  development_count: 20
+  heldout_test_count: 80
+  datasets:
+    sample_superstore: 40
+    uci_online_retail: 40
+    synthetic_or_corrupted: 20
+  families:
+    aggregation_and_ranking: 20
+    time_periods_and_growth: 20
+    grouping_and_multisheet_joins: 20
+    multistep_explanations: 20
+    ambiguity_corruption_refusal: 20
+  split_seed: 2026
+  freeze_before_agent_development: true
+  prevent_gold_from_model_context: true
+corruption_suite:
+  clean_workbook: data/derived/FinanceOps_Synthetic.xlsx
+  expected_corrupt_workbooks: 20
+  output_pattern: data/derived/corrupt_{index:02d}.xlsx
+  master_key_path: data/gold/corruption_master_key.json

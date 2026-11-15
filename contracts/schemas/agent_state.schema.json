@@ -1,0 +1,187 @@
+{
+  "$defs": {
+    "MetricSpec": {
+      "additionalProperties": false,
+      "description": "Canonical metric selection and aggregation chosen by Planner.\n\n`formula` is descriptive, not executable code. Actual formulas are implemented in an\nallowlisted operation registry and independently recomputed by verification code.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "source_columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Columns",
+          "type": "array"
+        },
+        "aggregation": {
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "formula": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Formula"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "definition_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Definition Source"
+        }
+      },
+      "required": [
+        "name",
+        "source_columns",
+        "aggregation"
+      ],
+      "title": "MetricSpec",
+      "type": "object"
+    },
+    "StateMessage": {
+      "additionalProperties": false,
+      "description": "Sanitised user/assistant turn summary used to preserve multi-turn context.",
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "content_summary": {
+          "title": "Content Summary",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content_summary"
+      ],
+      "title": "StateMessage",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Session state. Only accepted/verified facts may be stored as reusable analytical context.",
+  "properties": {
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "workbook_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Workbook Id"
+    },
+    "accepted_metric": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MetricSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "accepted_period": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Accepted Period"
+    },
+    "accepted_filters": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Accepted Filters",
+      "type": "array"
+    },
+    "accepted_group_by": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Accepted Group By",
+      "type": "array"
+    },
+    "last_verification_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Verification Id"
+    },
+    "history": {
+      "items": {
+        "$ref": "#/$defs/StateMessage"
+      },
+      "title": "History",
+      "type": "array"
+    },
+    "revision": {
+      "default": 0,
+      "title": "Revision",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "session_id"
+  ],
+  "title": "AgentState",
+  "type": "object"
+}

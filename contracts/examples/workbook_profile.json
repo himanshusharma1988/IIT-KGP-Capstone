@@ -1,0 +1,18 @@
+{
+  "workbook_id": "sha256:example-workbook-fingerprint",
+  "file_name": "example.xlsx",
+  "file_type": "xlsx",
+  "size_bytes": 4096,
+  "sheets": [{
+    "name": "Orders", "row_count": 4,
+    "columns": [
+      {"name": "Order_Date", "dtype": "datetime64[ns]", "null_count": 0, "unique_count": 4, "candidate_roles": ["date"], "safe_examples": ["2025-01-10"]},
+      {"name": "Region", "dtype": "object", "null_count": 0, "unique_count": 2, "candidate_roles": ["category"], "safe_examples": ["East"]},
+      {"name": "Sales", "dtype": "float64", "null_count": 0, "unique_count": 4, "candidate_roles": ["measure"], "safe_examples": ["120.0"]},
+      {"name": "Profit", "dtype": "float64", "null_count": 0, "unique_count": 4, "candidate_roles": ["measure"], "safe_examples": ["18.0"]}
+    ],
+    "duplicate_rows": 0, "hidden": false, "formula_cell_count": 0,
+    "candidate_date_ranges": {"Order_Date": {"min": "2025-01-10", "max": "2025-03-10"}}
+  }],
+  "warnings": [], "inspected_at": "2026-01-01T00:00:00Z", "profile_version": "1.0"
+}

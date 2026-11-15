@@ -1,0 +1,354 @@
+{
+  "$defs": {
+    "AnswerStatus": {
+      "enum": [
+        "VERIFIED",
+        "NOT_VERIFIED",
+        "CLARIFICATION_REQUIRED",
+        "FAILED"
+      ],
+      "title": "AnswerStatus",
+      "type": "string"
+    },
+    "ChartSpec": {
+      "additionalProperties": false,
+      "description": "Chart contract. Chart data is populated by Executor from result tables, not by Qwen.",
+      "properties": {
+        "chart_type": {
+          "$ref": "#/$defs/ChartType"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "x_column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X Column"
+        },
+        "y_column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y Column"
+        },
+        "series_columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Series Columns",
+          "type": "array"
+        },
+        "x_axis_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X Axis Label"
+        },
+        "y_axis_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y Axis Label"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "sort": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sort"
+        },
+        "baseline": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0.0,
+          "title": "Baseline"
+        }
+      },
+      "required": [
+        "chart_type",
+        "title"
+      ],
+      "title": "ChartSpec",
+      "type": "object"
+    },
+    "ChartType": {
+      "enum": [
+        "bar",
+        "horizontal_bar",
+        "line",
+        "scatter",
+        "table"
+      ],
+      "title": "ChartType",
+      "type": "string"
+    },
+    "Severity": {
+      "enum": [
+        "info",
+        "warning",
+        "error"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "VerificationFinding": {
+      "additionalProperties": false,
+      "description": "One deterministic or semantic verification finding.",
+      "properties": {
+        "check_id": {
+          "title": "Check Id",
+          "type": "string"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "expected": {
+          "default": null,
+          "title": "Expected"
+        },
+        "observed": {
+          "default": null,
+          "title": "Observed"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "error"
+        }
+      },
+      "required": [
+        "check_id",
+        "passed",
+        "category",
+        "message"
+      ],
+      "title": "VerificationFinding",
+      "type": "object"
+    },
+    "VerificationReport": {
+      "additionalProperties": false,
+      "description": "Critic verification evidence; VERIFIED is permitted only after required deterministic checks pass.",
+      "properties": {
+        "verification_id": {
+          "title": "Verification Id",
+          "type": "string"
+        },
+        "verified": {
+          "title": "Verified",
+          "type": "boolean"
+        },
+        "numeric_checks_passed": {
+          "title": "Numeric Checks Passed",
+          "type": "boolean"
+        },
+        "chart_checks_passed": {
+          "title": "Chart Checks Passed",
+          "type": "boolean"
+        },
+        "semantic_checks_passed": {
+          "title": "Semantic Checks Passed",
+          "type": "boolean"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/VerificationFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "recomputed_values": {
+          "additionalProperties": true,
+          "title": "Recomputed Values",
+          "type": "object"
+        },
+        "tolerance": {
+          "default": 1e-09,
+          "title": "Tolerance",
+          "type": "number"
+        },
+        "verification_method": {
+          "default": "deterministic_python",
+          "title": "Verification Method",
+          "type": "string"
+        }
+      },
+      "required": [
+        "verification_id",
+        "verified",
+        "numeric_checks_passed",
+        "chart_checks_passed",
+        "semantic_checks_passed"
+      ],
+      "title": "VerificationReport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Stable API response consumed by Streamlit and external callers.",
+  "properties": {
+    "status": {
+      "$ref": "#/$defs/AnswerStatus"
+    },
+    "answer": {
+      "title": "Answer",
+      "type": "string"
+    },
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "result_table_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Result Table Path"
+    },
+    "chart_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Chart Path"
+    },
+    "chart_spec": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChartSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "verification": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VerificationReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "clarification_question": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clarification Question"
+    },
+    "trace_id": {
+      "title": "Trace Id",
+      "type": "string"
+    },
+    "workbook_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Workbook Id"
+    }
+  },
+  "required": [
+    "status",
+    "answer",
+    "trace_id"
+  ],
+  "title": "AnswerResponse",
+  "type": "object"
+}

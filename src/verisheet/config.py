@@ -1,0 +1,39 @@
+"""Central application configuration loaded from environment variables."""
+
+from functools import lru_cache
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    """Typed runtime settings.
+
+    Schema: environment variables are case-insensitive and map to these fields. Secrets must
+    remain in the process environment or a secret manager; never place them in prompts/logs.
+    """
+
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+
+    qwen_api_base: str = ""
+    qwen_api_key: str = ""
+    qwen_model: str = "Qwen3-8B"
+    data_dir: str = "data"
+    artifact_dir: str = "artifacts"
+    trace_dir: str = "results/traces"
+    max_upload_mb: int = Field(default=50, ge=1, le=500)
+    max_sample_rows: int = Field(default=50, ge=1, le=500)
+    max_agent_actions: int = Field(default=10, ge=1, le=50)
+    max_repairs: int = Field(default=2, ge=0, le=5)
+    execution_timeout_seconds: int = Field(default=20, ge=1, le=120)
+    execution_memory_mb: int = Field(default=1024, ge=128, le=8192)
+    log_level: str = "INFO"
+
+
+@lru_cache(maxsize=1)
+def get_settings() -> Settings:
+    """Return cached settings for the current process.
+
+    Returns:
+        Settings: validated application configuration.
+    """
+    return Settings()

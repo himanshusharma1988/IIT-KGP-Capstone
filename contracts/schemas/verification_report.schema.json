@@ -1,0 +1,110 @@
+{
+  "$defs": {
+    "Severity": {
+      "enum": [
+        "info",
+        "warning",
+        "error"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "VerificationFinding": {
+      "additionalProperties": false,
+      "description": "One deterministic or semantic verification finding.",
+      "properties": {
+        "check_id": {
+          "title": "Check Id",
+          "type": "string"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "expected": {
+          "default": null,
+          "title": "Expected"
+        },
+        "observed": {
+          "default": null,
+          "title": "Observed"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity",
+          "default": "error"
+        }
+      },
+      "required": [
+        "check_id",
+        "passed",
+        "category",
+        "message"
+      ],
+      "title": "VerificationFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Critic verification evidence; VERIFIED is permitted only after required deterministic checks pass.",
+  "properties": {
+    "verification_id": {
+      "title": "Verification Id",
+      "type": "string"
+    },
+    "verified": {
+      "title": "Verified",
+      "type": "boolean"
+    },
+    "numeric_checks_passed": {
+      "title": "Numeric Checks Passed",
+      "type": "boolean"
+    },
+    "chart_checks_passed": {
+      "title": "Chart Checks Passed",
+      "type": "boolean"
+    },
+    "semantic_checks_passed": {
+      "title": "Semantic Checks Passed",
+      "type": "boolean"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/VerificationFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "recomputed_values": {
+      "additionalProperties": true,
+      "title": "Recomputed Values",
+      "type": "object"
+    },
+    "tolerance": {
+      "default": 1e-09,
+      "title": "Tolerance",
+      "type": "number"
+    },
+    "verification_method": {
+      "default": "deterministic_python",
+      "title": "Verification Method",
+      "type": "string"
+    }
+  },
+  "required": [
+    "verification_id",
+    "verified",
+    "numeric_checks_passed",
+    "chart_checks_passed",
+    "semantic_checks_passed"
+  ],
+  "title": "VerificationReport",
+  "type": "object"
+}

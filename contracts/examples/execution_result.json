@@ -1,0 +1,8 @@
+{
+  "run_id": "run-example-001", "step_id": "aggregate-quarter-profit", "status": "SUCCESS",
+  "result_table_path": "artifacts/tables/quarter_profit.csv", "result_columns": ["quarter", "profit"],
+  "row_count_in": 4, "row_count_out": 2, "scalar_values": {},
+  "script_path": "artifacts/scripts/aggregate_quarter_profit.py", "script_hash": "sha256:example-script-hash",
+  "chart_path": null, "chart_spec": null, "plotted_data": {}, "duration_seconds": 0.12,
+  "tool_calls": ["run_analysis"], "errors": []
+}

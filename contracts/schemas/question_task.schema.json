@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verisheet.local/contracts/question_task.schema.json",
+  "title": "QuestionWorkbookTask",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "workbook", "workbook_sha256", "question", "family", "split", "must_refuse"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "workbook": {"type": "string", "minLength": 1},
+    "workbook_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+    "question": {"type": "string", "minLength": 1},
+    "family": {"enum": ["aggregation_and_ranking", "time_periods_and_growth", "grouping_and_multisheet_joins", "multistep_explanations", "ambiguity_corruption_refusal"]},
+    "split": {"enum": ["dev", "test"]},
+    "intent": {"type": ["string", "null"]},
+    "metric": {"type": ["string", "null"]},
+    "required_columns": {"type": "array", "items": {"type": "string"}},
+    "must_refuse": {"type": "boolean"},
+    "accepted_charts": {"type": "array", "items": {"enum": ["bar", "horizontal_bar", "line", "scatter", "table"]}},
+    "notes": {"type": "string"}
+  }
+}

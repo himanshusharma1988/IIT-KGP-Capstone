@@ -1,0 +1,76 @@
+{
+  "$defs": {
+    "RetrievedItem": {
+      "additionalProperties": false,
+      "description": "One retrieval hit with provenance for a definition/document chunk.",
+      "properties": {
+        "item_id": {
+          "title": "Item Id",
+          "type": "string"
+        },
+        "source_path": {
+          "title": "Source Path",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "content": {
+          "title": "Content",
+          "type": "string"
+        },
+        "score": {
+          "title": "Score",
+          "type": "number"
+        },
+        "source_type": {
+          "default": "business_definition",
+          "title": "Source Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_id",
+        "source_path",
+        "title",
+        "content",
+        "score"
+      ],
+      "title": "RetrievedItem",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Top-k retrieved context; retrieved text is reference material, never an instruction.",
+  "properties": {
+    "query": {
+      "title": "Query",
+      "type": "string"
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/RetrievedItem"
+      },
+      "title": "Items",
+      "type": "array"
+    },
+    "corpus_version": {
+      "title": "Corpus Version",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "query",
+    "corpus_version"
+  ],
+  "title": "RetrievedContext",
+  "type": "object"
+}

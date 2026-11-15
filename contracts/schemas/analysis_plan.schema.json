@@ -1,0 +1,460 @@
+{
+  "$defs": {
+    "AnalysisStep": {
+      "additionalProperties": false,
+      "description": "One dependency-aware operation in a Planner-authored plan.",
+      "properties": {
+        "step_id": {
+          "title": "Step Id",
+          "type": "string"
+        },
+        "tool": {
+          "enum": [
+            "inspect_workbook",
+            "sample_rows",
+            "run_analysis",
+            "make_chart"
+          ],
+          "title": "Tool",
+          "type": "string"
+        },
+        "operation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operation"
+        },
+        "inputs": {
+          "additionalProperties": true,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "depends_on": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Depends On",
+          "type": "array"
+        },
+        "expected_output_schema": {
+          "additionalProperties": true,
+          "title": "Expected Output Schema",
+          "type": "object"
+        },
+        "validation_checks": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Validation Checks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "step_id",
+        "tool"
+      ],
+      "title": "AnalysisStep",
+      "type": "object"
+    },
+    "ChartSpec": {
+      "additionalProperties": false,
+      "description": "Chart contract. Chart data is populated by Executor from result tables, not by Qwen.",
+      "properties": {
+        "chart_type": {
+          "$ref": "#/$defs/ChartType"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "x_column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X Column"
+        },
+        "y_column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y Column"
+        },
+        "series_columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Series Columns",
+          "type": "array"
+        },
+        "x_axis_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X Axis Label"
+        },
+        "y_axis_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y Axis Label"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "sort": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sort"
+        },
+        "baseline": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0.0,
+          "title": "Baseline"
+        }
+      },
+      "required": [
+        "chart_type",
+        "title"
+      ],
+      "title": "ChartSpec",
+      "type": "object"
+    },
+    "ChartType": {
+      "enum": [
+        "bar",
+        "horizontal_bar",
+        "line",
+        "scatter",
+        "table"
+      ],
+      "title": "ChartType",
+      "type": "string"
+    },
+    "JoinSpec": {
+      "additionalProperties": false,
+      "description": "Join instruction with expected cardinality and explicit key mapping.",
+      "properties": {
+        "left_sheet": {
+          "title": "Left Sheet",
+          "type": "string"
+        },
+        "right_sheet": {
+          "title": "Right Sheet",
+          "type": "string"
+        },
+        "left_keys": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Left Keys",
+          "type": "array"
+        },
+        "right_keys": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Right Keys",
+          "type": "array"
+        },
+        "expected_cardinality": {
+          "enum": [
+            "one_to_one",
+            "one_to_many",
+            "many_to_one"
+          ],
+          "title": "Expected Cardinality",
+          "type": "string"
+        },
+        "aggregate_before_join": {
+          "default": false,
+          "title": "Aggregate Before Join",
+          "type": "boolean"
+        },
+        "validate_row_count": {
+          "default": true,
+          "title": "Validate Row Count",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "left_sheet",
+        "right_sheet",
+        "left_keys",
+        "right_keys",
+        "expected_cardinality"
+      ],
+      "title": "JoinSpec",
+      "type": "object"
+    },
+    "MetricSpec": {
+      "additionalProperties": false,
+      "description": "Canonical metric selection and aggregation chosen by Planner.\n\n`formula` is descriptive, not executable code. Actual formulas are implemented in an\nallowlisted operation registry and independently recomputed by verification code.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "source_columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Columns",
+          "type": "array"
+        },
+        "aggregation": {
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "formula": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Formula"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "definition_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Definition Source"
+        }
+      },
+      "required": [
+        "name",
+        "source_columns",
+        "aggregation"
+      ],
+      "title": "MetricSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Planner output consumed by Executor and Critic.\n\nA plan describes what to do; it does not contain computed answer values or executable\nPython. `clarification_needed=True` requires a non-empty clarification_question and no\nexecution should start until the user responds.",
+  "properties": {
+    "plan_id": {
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "goal": {
+      "title": "Goal",
+      "type": "string"
+    },
+    "metric": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MetricSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "source_sheets": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Sheets",
+      "type": "array"
+    },
+    "date_policy": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Date Policy"
+    },
+    "date_range": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Date Range"
+    },
+    "filters": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Filters",
+      "type": "array"
+    },
+    "group_by": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Group By",
+      "type": "array"
+    },
+    "joins": {
+      "items": {
+        "$ref": "#/$defs/JoinSpec"
+      },
+      "title": "Joins",
+      "type": "array"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/$defs/AnalysisStep"
+      },
+      "title": "Steps",
+      "type": "array"
+    },
+    "chart_spec": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChartSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "checks": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Checks",
+      "type": "array"
+    },
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "clarification_needed": {
+      "default": false,
+      "title": "Clarification Needed",
+      "type": "boolean"
+    },
+    "clarification_question": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clarification Question"
+    },
+    "max_actions": {
+      "default": 10,
+      "maximum": 50,
+      "minimum": 1,
+      "title": "Max Actions",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "plan_id",
+    "goal"
+  ],
+  "title": "AnalysisPlan",
+  "type": "object"
+}

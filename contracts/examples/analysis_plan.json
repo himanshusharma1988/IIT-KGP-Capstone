@@ -1,0 +1,14 @@
+{
+  "plan_id": "plan-example-001", "goal": "compare_latest_completed_quarters_profit",
+  "metric": {"name": "profit", "source_columns": ["Profit"], "aggregation": "sum", "formula": "sum(Profit)", "unit": "currency", "definition_source": "data_dictionary.md#profit"},
+  "source_sheets": ["Orders"], "date_policy": "previous_to_quarter_containing_max_observed_date",
+  "date_range": null, "filters": [], "group_by": [], "joins": [],
+  "steps": [
+    {"step_id": "aggregate-quarter-profit", "tool": "run_analysis", "operation": "quarter_comparison", "inputs": {"sheet": "Orders", "date_column": "Order_Date", "metric_column": "Profit", "aggregation": "sum"}, "depends_on": [], "expected_output_schema": {"quarter": "string", "profit": "number"}, "validation_checks": ["date_filter_is_two_completed_quarters", "aggregation_is_sum"]},
+    {"step_id": "plot-quarter-comparison", "tool": "make_chart", "operation": "bar", "inputs": {"source_step_id": "aggregate-quarter-profit"}, "depends_on": ["aggregate-quarter-profit"], "expected_output_schema": {"chart_path": "string", "plotted_data": "object"}, "validation_checks": ["chart_data_matches_result_table"]}
+  ],
+  "chart_spec": {"chart_type": "bar", "title": "Quarterly profit comparison", "x_column": "quarter", "y_column": "profit", "series_columns": [], "x_axis_label": "Quarter", "y_axis_label": "Profit", "unit": "currency", "currency": null, "sort": "chronological", "baseline": 0.0},
+  "checks": ["metric_is_sum", "period_is_correct", "chart_matches_result"],
+  "assumptions": ["Quarter selection uses the observed maximum date because no reporting-close field was supplied."],
+  "clarification_needed": false, "clarification_question": null, "max_actions": 10
+}

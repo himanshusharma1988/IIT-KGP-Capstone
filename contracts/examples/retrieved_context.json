@@ -1,0 +1,10 @@
+{
+  "query": "How is profit defined?",
+  "items": [{
+    "item_id": "definition-operating-profit", "source_path": "data_dictionary.md#operating-profit",
+    "title": "Operating profit definition",
+    "content": "Operating profit = net sales - cost of goods sold - operating expenses.",
+    "score": 0.91, "source_type": "business_definition"
+  }],
+  "corpus_version": "dev-fixture-1", "warnings": []
+}

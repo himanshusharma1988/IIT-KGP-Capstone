@@ -1,0 +1,352 @@
+{
+  "$defs": {
+    "ChartSpec": {
+      "additionalProperties": false,
+      "description": "Chart contract. Chart data is populated by Executor from result tables, not by Qwen.",
+      "properties": {
+        "chart_type": {
+          "$ref": "#/$defs/ChartType"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "x_column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X Column"
+        },
+        "y_column": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y Column"
+        },
+        "series_columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Series Columns",
+          "type": "array"
+        },
+        "x_axis_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X Axis Label"
+        },
+        "y_axis_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y Axis Label"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "sort": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sort"
+        },
+        "baseline": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0.0,
+          "title": "Baseline"
+        }
+      },
+      "required": [
+        "chart_type",
+        "title"
+      ],
+      "title": "ChartSpec",
+      "type": "object"
+    },
+    "ChartType": {
+      "enum": [
+        "bar",
+        "horizontal_bar",
+        "line",
+        "scatter",
+        "table"
+      ],
+      "title": "ChartType",
+      "type": "string"
+    },
+    "RunStatus": {
+      "enum": [
+        "SUCCESS",
+        "FAILED",
+        "PARTIAL"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    },
+    "ToolError": {
+      "additionalProperties": false,
+      "description": "Structured error returned by a tool; no raw secrets or unbounded workbook contents.",
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "failed_step_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failed Step Id"
+        },
+        "safe_details": {
+          "additionalProperties": true,
+          "title": "Safe Details",
+          "type": "object"
+        }
+      },
+      "required": [
+        "code",
+        "category",
+        "message"
+      ],
+      "title": "ToolError",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Executor output for one step or one complete plan.\n\nLarge tables/images are stored as artifact files. The payload contains paths, hashes,\ndimensions, scalar summaries and chart arrays needed for verification.",
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "step_id": {
+      "title": "Step Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/RunStatus"
+    },
+    "result_table_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Result Table Path"
+    },
+    "result_columns": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Result Columns",
+      "type": "array"
+    },
+    "row_count_in": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Row Count In"
+    },
+    "row_count_out": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Row Count Out"
+    },
+    "scalar_values": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Scalar Values",
+      "type": "object"
+    },
+    "script_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Script Path"
+    },
+    "script_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Script Hash"
+    },
+    "chart_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Chart Path"
+    },
+    "chart_spec": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChartSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "plotted_data": {
+      "additionalProperties": {
+        "items": {},
+        "type": "array"
+      },
+      "title": "Plotted Data",
+      "type": "object"
+    },
+    "duration_seconds": {
+      "default": 0.0,
+      "title": "Duration Seconds",
+      "type": "number"
+    },
+    "tool_calls": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tool Calls",
+      "type": "array"
+    },
+    "errors": {
+      "items": {
+        "$ref": "#/$defs/ToolError"
+      },
+      "title": "Errors",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "step_id",
+    "status"
+  ],
+  "title": "ExecutionResult",
+  "type": "object"
+}

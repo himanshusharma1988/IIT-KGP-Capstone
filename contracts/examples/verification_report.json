@@ -1,0 +1,10 @@
+{
+  "verification_id": "verify-example-001", "verified": false,
+  "numeric_checks_passed": false, "chart_checks_passed": false, "semantic_checks_passed": true,
+  "findings": [{
+    "check_id": "numeric-profit-sum", "passed": false, "category": "wrong_aggregation",
+    "message": "Fixture example: observed mean aggregation; expected sum aggregation.",
+    "expected": "sum(Profit)", "observed": "mean(Profit)", "severity": "error"
+  }],
+  "recomputed_values": {}, "tolerance": 1e-9, "verification_method": "deterministic_python"
+}

@@ -1,0 +1,31 @@
+{
+  "generated_at": null,
+  "datasets": [
+    {
+      "dataset_id": "sample_superstore_full",
+      "source_url": "",
+      "retrieved_at": "",
+      "license_notice": "",
+      "file_name": "",
+      "sha256": "",
+      "bytes": null,
+      "row_count": null,
+      "sheets": [],
+      "verified_fields": [],
+      "caveats": []
+    },
+    {
+      "dataset_id": "uci_online_retail",
+      "source_url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+      "retrieved_at": "",
+      "license_notice": "",
+      "file_name": "Online Retail.xlsx",
+      "sha256": "",
+      "bytes": null,
+      "row_count": null,
+      "sheets": [],
+      "verified_fields": [],
+      "caveats": ["Profit, COGS and operating expenses are not supplied by this dataset."]
+    }
+  ]
+}

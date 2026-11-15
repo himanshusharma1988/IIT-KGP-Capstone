@@ -1,0 +1,84 @@
+{
+  "$defs": {
+    "Decision": {
+      "enum": [
+        "ACCEPT",
+        "REPAIR",
+        "REPLAN",
+        "CLARIFY"
+      ],
+      "title": "Decision",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Action returned by Critic and interpreted by Orchestrator.",
+  "properties": {
+    "decision": {
+      "$ref": "#/$defs/Decision"
+    },
+    "failed_step_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Failed Step Id"
+    },
+    "error_category": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Category"
+    },
+    "evidence": {
+      "additionalProperties": true,
+      "title": "Evidence",
+      "type": "object"
+    },
+    "instruction": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Instruction"
+    },
+    "clarification_question": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clarification Question"
+    },
+    "independent_check_passed": {
+      "default": false,
+      "title": "Independent Check Passed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "decision"
+  ],
+  "title": "CriticDecision",
+  "type": "object"
+}
