@@ -18,3 +18,17 @@ results/traces/*
 *.faiss
 *.index
 .DS_Store
+
+# Python packaging/build output (created by `pip install -e .`)
+*.egg-info/
+build/
+dist/
+
+# Tool caches
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Any env/secrets variant except the documented template
+.env.*
+!.env.example
